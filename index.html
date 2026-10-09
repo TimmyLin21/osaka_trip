@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Osaka Kuri</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
+<style>
+/* 版面：手機單欄的繪本頁。固定選單在上，每個區塊是一張 3px 墨線＋大圓角的色紙，顏色一律平塗。 */
+:root{
+  color-scheme:light;
+  --paper:#FFFCF6; --ink:#3E3A39; --ink-soft:#6B6462;
+  --coral:#F2A497; --yellow:#F6D27A; --aqua:#A8D3E6; --green:#B9DAA5;
+  --coral-soft:#FBE4DE; --yellow-soft:#FCF0CF; --aqua-soft:#E0EFF6; --green-soft:#E6F1DC;
+  --line:3px solid var(--ink);
+  --r-lg:28px; --r-md:20px;
+  --font:"Huninn","Hiragino Maru Gothic ProN","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  --nav-h:56px;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:16px;font-weight:400;line-height:1.7;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4,strong,b{font-weight:400}
+h1,h2,h3,h4{text-wrap:balance}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px dashed var(--ink);outline-offset:3px}
+
+/* ---------- 插圖共用 ---------- */
+.ill{display:block;width:100%;height:auto}
+.ill *{stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none;vector-effect:non-scaling-stroke}
+.ill g{transform-origin:0 0}
+.ill .c{fill:var(--coral)} .ill .y{fill:var(--yellow)} .ill .a{fill:var(--aqua)} .ill .g{fill:var(--green)}
+.ill .p{fill:var(--paper)} .ill .k{fill:var(--ink)}
+.ill .cs{fill:var(--coral-soft)} .ill .ys{fill:var(--yellow-soft)} .ill .as{fill:var(--aqua-soft)} .ill .gs{fill:var(--green-soft)}
+.ill .ns{stroke:none} .ill .t2{stroke-width:2}
+
+/* ---------- 固定選單 ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--paper);border-bottom:var(--line);padding-top:env(safe-area-inset-top,0px)}
+.nav-in{max-width:880px;margin:0 auto;padding:0 12px;height:var(--nav-h);display:flex;align-items:center;gap:8px}
+.brand{display:flex;align-items:center;gap:8px;font-size:18px;white-space:nowrap;flex:none;text-decoration:none}
+.brand-ic{width:32px;height:32px;flex:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;fill:none}
+.brand-ic .bg{fill:var(--coral)}
+.brand span{display:none}
+.nav-links{display:flex;gap:2px;margin-left:auto;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{flex:none;padding:3px 9px;border:3px solid transparent;border-radius:999px;font-size:15px;line-height:1.6;text-decoration:none;transition:background-color .15s}
+.nav-links a:hover{background:var(--yellow-soft)}
+.nav-links a[aria-current="true"]{background:var(--yellow);border-color:var(--ink)}
+@media (min-width:440px){.brand span{display:inline}.nav-links{gap:6px}.nav-links a{padding:3px 12px}}
+
+/* ---------- 版面 ---------- */
+.wrap{max-width:880px;margin:0 auto;padding-inline:16px;padding-block:calc(var(--nav-h) + 22px) 40px;display:grid;gap:48px}
+.wrap>*{min-width:0}
+section{scroll-margin-top:calc(var(--nav-h) + 18px)}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+h2{position:relative;isolation:isolate;display:inline-block;margin:0;font-size:27px;line-height:1.3}
+h2::after{content:"";position:absolute;z-index:-1;left:-6px;right:-6px;bottom:2px;height:12px;border-radius:8px;background:var(--hl,var(--yellow))}
+.sec-art{flex:none;width:92px}
+.hint{margin:0 0 14px;font-size:14px;line-height:1.65;color:var(--ink-soft)}
+
+/* ---------- 首頁 ---------- */
+.hero{display:grid;gap:20px}
+.hero-art{border:var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--aqua);box-shadow:0 6px 0 var(--ink);margin-bottom:6px}
+.eyebrow{display:inline-block;margin:0;padding:1px 14px;border:var(--line);border-radius:999px;background:var(--yellow);font-size:14px;letter-spacing:.06em}
+h1{margin:10px 0 10px;font-size:clamp(46px,13.5vw,70px);line-height:1.05;letter-spacing:.01em}
+.route{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.route li{padding:0 12px;border-radius:999px;font-size:15px;line-height:1.8;background:var(--c)}
+.dates{margin:10px 0 0;font-size:15.5px;font-variant-numeric:tabular-nums}
+.cd{margin-top:16px;border:var(--line);border-radius:var(--r-md);padding:12px 12px 14px;background:var(--paper)}
+.cd-label{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 10px;margin:0 2px 8px;font-size:14.5px}
+.cd-label span:last-child{color:var(--ink-soft);font-size:13.5px}
+.cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cd-box{border:var(--line);border-radius:16px;padding:8px 2px 5px;text-align:center;background:var(--c)}
+.cd-num{display:block;font-size:clamp(26px,8.6vw,40px);line-height:1.1;font-variant-numeric:tabular-nums}
+.cd-unit{font-size:13px;line-height:1.4}
+.cd-msg{margin:0;padding:6px 4px;font-size:19px;text-align:center}
+@media (min-width:820px){.hero{grid-template-columns:1.2fr 1fr;align-items:center;gap:34px}}
+
+/* ---------- 航班 ---------- */
+.tickets{display:grid;gap:16px}
+@media (min-width:760px){.tickets{grid-template-columns:1fr 1fr}}
+.ticket{border:var(--line);border-radius:var(--r-md);background:var(--paper);overflow:hidden}
+.ticket-head{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;padding:8px 16px;background:var(--c);border-bottom:var(--line);font-size:15px}
+.ticket-head b{font-size:17px}
+.ticket-head .air{margin-left:auto}
+.ticket-body{display:grid;grid-template-columns:auto minmax(48px,1fr) auto;align-items:center;gap:12px;padding:18px 18px 14px}
+.pt{text-align:center}
+.pt .t-time{display:block;font-size:32px;line-height:1.1;font-variant-numeric:tabular-nums}
+.pt .city{font-size:14.5px}
+.fly{position:relative;height:36px}
+.fly::before{content:"";position:absolute;left:0;right:0;top:50%;margin-top:-1.5px;border-top:3px dashed var(--ink)}
+.fly-plane{position:absolute;left:50%;top:50%;width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;background:var(--paper);display:grid;place-items:center}
+.fly-plane svg{width:26px;height:26px;fill:var(--c);stroke:var(--ink);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.ticket-foot{display:flex;flex-wrap:wrap;gap:2px 16px;padding:8px 16px;border-top:3px dashed var(--ink);font-size:14px;color:var(--ink-soft)}
+.after-note{margin:12px 2px 0;font-size:14px;line-height:1.65;color:var(--ink-soft)}
+
+/* ---------- 日期切換 ---------- */
+.tabs-scroll{position:relative;margin-inline:-16px;padding-inline:16px;overflow-x:auto;scrollbar-width:none}
+.tabs-scroll::-webkit-scrollbar{display:none}
+.tabs{display:flex;gap:10px;width:max-content;padding:10px 2px 12px}
+.tab{appearance:none;-webkit-appearance:none;flex:none;width:66px;padding:0 0 7px;border:var(--line);border-radius:18px;background:var(--paper);overflow:hidden;cursor:pointer;display:grid;justify-items:center;transition:background-color .15s}
+.tab .dow{width:100%;border-bottom:var(--line);background:var(--cs);font-size:12.5px;line-height:22px}
+.tab .num{margin-top:3px;font-size:25px;line-height:1.15;font-variant-numeric:tabular-nums}
+.tab .lbl{font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
+.tab[aria-selected="true"]{background:var(--c);transform:translateY(-4px);box-shadow:0 4px 0 var(--ink)}
+.tab[aria-selected="true"] .dow{background:var(--paper)}
+.tab[aria-selected="true"] .lbl{color:var(--ink)}
+
+/* ---------- 每日行程 ---------- */
+.day-head{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:14px 10px 14px 18px;border:var(--line);border-radius:var(--r-lg);background:var(--cs)}
+.day-head>div{min-width:0}
+.day-no{margin:0;font-size:13.5px;letter-spacing:.1em;font-variant-numeric:tabular-nums}
+.day-head h3{margin:1px 0 2px;font-size:25px;line-height:1.3}
+.day-area{margin:0;font-size:14.5px}
+.day-art{flex:none;width:clamp(96px,30vw,132px);margin-left:auto}
+.day-meta{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:8px 0 0;padding:0}
+.day-meta li{padding:0 10px;border-radius:999px;background:var(--paper);font-size:13px;line-height:1.75}
+
+.tl{position:relative;display:grid;gap:14px;list-style:none;margin:0;padding:0 0 0 34px}
+.tl::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:3px;border-radius:3px;background:var(--ink)}
+.tl>li{position:relative;min-width:0}
+.stop::before{content:attr(data-k);position:absolute;left:-35px;top:13px;width:27px;height:27px;border:var(--line);border-radius:50%;background:var(--c);font-size:13px;line-height:21px;text-align:center}
+.move{display:flex;align-items:flex-start;gap:8px;font-size:14.5px;line-height:1.6}
+.move::before{content:"";position:absolute;left:-27px;top:7px;width:11px;height:11px;border:var(--line);border-radius:50%;background:var(--paper)}
+.mode{flex:none;display:inline-flex;align-items:center;gap:4px;padding:0 10px 0 7px;border:var(--line);border-radius:999px;background:var(--c);font-size:13.5px;line-height:22px}
+.mode svg{width:16px;height:16px;fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mode svg .fp{fill:var(--paper)} .mode svg .fk{fill:var(--ink);stroke:none}
+.move-text{flex:1;min-width:0;padding-top:2px}.move-text .time{margin-right:6px}
+.time{display:inline-block;padding:0 10px;border-radius:999px;background:var(--ink);color:var(--paper);font-size:13px;line-height:1.75;font-variant-numeric:tabular-nums}
+
+.card{position:relative;padding:14px 14px 14px;border:var(--line);border-radius:var(--r-md);background:var(--paper)}
+.card-top{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.card.is-must .card-top{padding-right:74px}
+.card h4{margin:0;font-size:18.5px;line-height:1.45;overflow-wrap:anywhere}
+.card.is-must:not(:has(.card-top)) h4{padding-right:74px}
+.card .sub{margin:0;font-size:14.5px;color:var(--ink-soft)}
+.must{position:absolute;top:-14px;right:12px;display:flex;align-items:center;gap:4px;padding:0 11px 0 8px;border:var(--line);border-radius:999px;background:var(--coral);font-size:14.5px;line-height:25px;transform:rotate(5deg)}
+.must svg{width:14px;height:14px;fill:var(--yellow);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.facts{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:10px 0 0;padding:0}
+.facts li{padding:0 10px;border-radius:999px;font-size:13.5px;line-height:1.75}
+.f-star{background:var(--yellow-soft)} .f-price{background:var(--green-soft)} .f-closed{background:var(--coral-soft)} .f-hours{background:var(--aqua-soft)}
+.note{margin:8px 0 0;font-size:15px;line-height:1.7}
+.alert{display:flex;gap:8px;align-items:flex-start;margin:10px 0 0;padding:8px 12px;border-radius:14px;background:var(--coral-soft);font-size:14.5px;line-height:1.6}
+.alert::before{content:"!";flex:none;width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:13px;line-height:20px;text-align:center}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:2px 14px;border:var(--line);border-radius:999px;background:var(--paper);font-size:14.5px;text-decoration:none;cursor:pointer;transition:background-color .15s}
+.btn:hover{background:var(--yellow)}
+.btn svg{width:16px;height:16px;fill:var(--coral);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.day-tip{margin:16px 0 0;padding:10px 14px;border:3px dashed var(--ink);border-radius:var(--r-md);font-size:14.5px;line-height:1.65}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+.pager .btn:only-child{margin-left:auto}
+.pager .prev:only-child{margin-left:0}
+
+/* ---------- 待辦 ---------- */
+.todo{padding:16px 14px 16px;border:var(--line);border-radius:var(--r-lg);background:var(--paper)}
+.todo-top{display:flex;align-items:center;gap:12px;font-size:15px;font-variant-numeric:tabular-nums}
+.bar{flex:1;height:18px;border:var(--line);border-radius:999px;overflow:hidden;background:var(--paper)}
+.bar i{display:block;width:0;height:100%;background:var(--green);transition:width .45s cubic-bezier(.34,1.56,.64,1)}
+.todo h3{display:inline-block;margin:18px 0 4px;padding:0 14px;border-radius:999px;background:var(--c);font-size:15.5px;line-height:1.8}
+.checks{display:grid;gap:0;list-style:none;margin:0;padding:0}
+.checks li{display:flex;align-items:flex-start;gap:4px}
+.check{flex:1;min-width:0;position:relative;display:flex;align-items:flex-start;gap:11px;padding:8px 4px;cursor:pointer}
+.check input{position:absolute;left:4px;top:8px;width:28px;height:28px;margin:0;opacity:0;cursor:pointer}
+.check .box{flex:none;display:grid;place-items:center;width:28px;height:28px;border:var(--line);border-radius:10px;background:var(--paper);transition:background-color .15s}
+.check .box svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.3);transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .1s}
+.check input:checked+.box{background:var(--green)}
+.check input:checked+.box svg{opacity:1;transform:none}
+.check input:focus-visible+.box{outline:3px dashed var(--ink);outline-offset:3px}
+.check .txt{min-width:0;overflow-wrap:anywhere;line-height:1.6;padding-top:1px}
+.check .txt small{display:block;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
+.check input:checked~.txt{color:var(--ink-soft);text-decoration:line-through;text-decoration-thickness:2px}
+.del{appearance:none;-webkit-appearance:none;flex:none;width:38px;height:38px;margin-top:3px;border:0;border-radius:50%;background:none;font-size:20px;line-height:1;cursor:pointer}
+.del:hover{background:var(--coral-soft)}
+.todo-add{display:flex;gap:8px;margin-top:14px}
+.todo-add input{flex:1;min-width:0;padding:6px 16px;border:var(--line);border-radius:999px;background:var(--paper);color:var(--ink);font:inherit}
+.todo-add input::placeholder{color:var(--ink-soft);opacity:1}
+.todo-add .btn{flex:none;background:var(--yellow)}
+.todo-add .btn:hover{background:var(--coral)}
+
+/* ---------- 住宿 ---------- */
+.stay{display:grid;border:var(--line);border-radius:var(--r-lg);background:var(--paper);overflow:hidden}
+.stay-art{display:grid;place-items:center;padding:10px;border-bottom:var(--line);background:var(--aqua-soft)}
+.stay-art svg{width:200px;max-width:100%}
+.stay-body{padding:16px 16px 18px;min-width:0}
+.stay h3{margin:0;font-size:21px;line-height:1.4;overflow-wrap:anywhere}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:12px 0 0;font-size:15.5px;line-height:1.6}
+.kv dt{color:var(--ink-soft);white-space:nowrap}
+.kv dd{margin:0;min-width:0}
+@media (min-width:700px){.stay{grid-template-columns:250px 1fr}.stay-art{border-bottom:0;border-right:var(--line)}}
+.foot{margin:0;font-size:13.5px;line-height:1.7;color:var(--ink-soft);text-align:center}
+
+/* ---------- 動畫（系統開啟「減少動態效果」時全部停用） ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .spin{animation:spin 28s linear infinite}
+  .drift{animation:drift 8s ease-in-out infinite alternate}
+  .drift.d2{animation-duration:11s;animation-direction:alternate-reverse}
+  .float{animation:float 3.6s ease-in-out infinite alternate}
+  .rock{animation:rock 4.6s ease-in-out infinite alternate}
+  .twinkle{animation:twinkle 2.2s ease-in-out infinite alternate}
+  .twinkle.d2{animation-delay:-1.1s}
+  .wiggle{animation:wiggle 2.6s ease-in-out infinite alternate}
+  .nod{animation:nod 2.8s ease-in-out infinite alternate}
+  .sway{animation:sway 3.4s ease-in-out infinite alternate}
+  .steam{animation:steam 2.6s ease-in-out infinite}
+  .hop{animation:hop 2s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .fly-plane svg{animation:fly 2.8s ease-in-out infinite alternate}
+  .panel.pop .day-head{animation:pop .6s ease-out both}
+  .panel.pop .tl>li,.panel.pop .day-tip,.panel.pop .pager{animation:rise .55s ease-out both;animation-delay:calc(var(--i,0)*45ms + 90ms)}
+  .tab.pop{animation:tabpop .55s ease-out}
+  .cd-num.tick{animation:tick .3s ease-out}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes drift{from{transform:translateX(-6px)}to{transform:translateX(8px)}}
+@keyframes float{from{transform:translateY(3px) rotate(-1.5deg)}to{transform:translateY(-5px) rotate(2deg)}}
+@keyframes rock{from{transform:translateX(-6px)}to{transform:translateX(6px)}}
+@keyframes twinkle{from{transform:scale(.55);opacity:.45}to{transform:scale(1.1);opacity:1}}
+@keyframes wiggle{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes nod{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+@keyframes sway{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes steam{0%{transform:translateY(3px);opacity:0}45%{opacity:1}100%{transform:translateY(-4px);opacity:0}}
+@keyframes hop{0%,60%,100%{transform:none}30%{transform:translateY(-4px)}}
+@keyframes fly{from{transform:translate(-3px,2px)}to{transform:translate(3px,-2px)}}
+@keyframes pop{0%{opacity:0;transform:scale(.88) translateY(10px)}55%{opacity:1;transform:scale(1.04) translateY(-3px)}78%{transform:scale(.985) translateY(1px)}100%{transform:none}}
+@keyframes rise{0%{opacity:0;transform:translateY(18px) scale(.94)}60%{opacity:1;transform:translateY(-5px) scale(1.02)}82%{transform:translateY(2px) scale(.995)}100%{transform:none}}
+@keyframes tabpop{0%{transform:translateY(0) scale(.88)}50%{transform:translateY(-10px) scale(1.08)}75%{transform:translateY(-2px) scale(.98)}100%{transform:translateY(-4px) scale(1)}}
+@keyframes tick{0%{transform:translateY(-3px)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<div lang="zh-Hant">
+
+<nav class="nav" aria-label="頁面選單">
+  <div class="nav-in">
+    <a class="brand" href="#top" data-target="top">
+      <svg class="brand-ic" viewBox="0 0 24 24" aria-hidden="true"><circle class="bg" cx="12" cy="12" r="10.6"/><path d="M5.5 8.6q6.5-2 13 0M7.5 12h9M9 9v8.5M15 9v8.5"/></svg>
+      <span>Osaka Kuri</span>
+    </a>
+    <div class="nav-links">
+      <a href="#top" data-target="top" aria-current="true">首頁</a>
+      <a href="#flights" data-target="flights">航班</a>
+      <a href="#days" data-target="days">行程</a>
+      <a href="#todo" data-target="todo">待辦</a>
+      <a href="#stay" data-target="stay">住宿</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ================= 首頁 ================= -->
+<section id="top" class="hero">
+  <div class="hero-art">
+    <svg class="ill" viewBox="0 0 400 250" role="img" aria-label="插圖：大阪城、通天閣、鳥居，下方有電車經過，天上有一架飛機">
+      <rect class="a ns" x="0" y="0" width="400" height="250"/>
+      <g transform="translate(262 44)">
+        <g class="spin"><path d="M27 0h7M19.1 19.1l5 5M0 27v7M-19.1 19.1l-5 5M-27 0h-7M-19.1-19.1l-5-5M0-27v-7M19.1-19.1l5-5"/></g>
+        <circle class="y" r="19"/>
+      </g>
+      <g transform="translate(118 10) scale(.72)"><g class="drift"><path class="p" d="M10 46a12 12 0 0 1 2-24a16 16 0 0 1 30-6a13 13 0 0 1 22 10a10 10 0 0 1-2 20z"/></g></g>
+      <g transform="translate(338 18) scale(.74)"><g class="drift d2"><path class="p" d="M10 46a12 12 0 0 1 2-24a16 16 0 0 1 30-6a13 13 0 0 1 22 10a10 10 0 0 1-2 20z"/></g></g>
+      <g transform="translate(14 92) scale(.8)"><g class="drift d2"><path class="p" d="M10 46a12 12 0 0 1 2-24a16 16 0 0 1 30-6a13 13 0 0 1 22 10a10 10 0 0 1-2 20z"/></g></g>
+      <g transform="translate(30 26)"><path class="y t2 twinkle" d="M0-7Q1.5-1.5 7 0Q1.5 1.5 0 7Q-1.5 1.5-7 0Q-1.5-1.5 0-7Z"/></g>
+      <g transform="translate(140 96)"><path class="p t2 twinkle d2" d="M0-7Q1.5-1.5 7 0Q1.5 1.5 0 7Q-1.5 1.5-7 0Q-1.5-1.5 0-7Z"/></g>
+      <g transform="translate(374 128)"><path class="y t2 twinkle" d="M0-7Q1.5-1.5 7 0Q1.5 1.5 0 7Q-1.5 1.5-7 0Q-1.5-1.5 0-7Z"/></g>
+      <!-- 山丘 -->
+      <path class="g" d="M-10 260V186Q40 160 110 178Q160 190 200 176Q260 158 320 178Q370 192 410 176V260Z"/>
+      <!-- 鳥居 -->
+      <rect class="c" x="44" y="152" width="8" height="50"/><rect class="c" x="72" y="152" width="8" height="50"/>
+      <rect class="c" x="37" y="160" width="50" height="7" rx="2"/>
+      <path class="c" d="M29 150q33-8 66 0l-3-11q-30-7-60 0z"/>
+      <rect class="y t2" x="58" y="150" width="8" height="10"/>
+      <!-- 大阪城 -->
+      <path class="y" d="M146 200L158 160H242L254 200Z"/>
+      <path class="t2" d="M168 174h10M198 186h12M222 172h8M176 192h8"/>
+      <rect class="p" x="164" y="140" width="72" height="20"/>
+      <path d="M180 147v7M200 147v7M220 147v7"/>
+      <path class="g" d="M150 142q10-2 14-16h72q4 14 14 16z"/>
+      <rect class="p" x="174" y="108" width="52" height="18"/>
+      <path d="M190 114v6M210 114v6"/>
+      <path class="g" d="M162 110q8-2 12-14h52q4 12 12 14z"/>
+      <rect class="p" x="184" y="80" width="32" height="16"/>
+      <circle class="y t2" cx="200" cy="88" r="3.5"/>
+      <path class="g" d="M172 82q14-4 28-24q14 20 28 24z"/>
+      <circle class="y t2" cx="200" cy="56" r="4"/>
+      <!-- 通天閣 -->
+      <path class="p" d="M294 212L306 152H330L342 212H330Q318 178 306 212Z"/>
+      <path class="t2" d="M303 168H333"/>
+      <rect class="c" x="300" y="140" width="36" height="13" rx="3"/>
+      <rect class="p" x="309" y="104" width="18" height="36"/>
+      <path class="t2" d="M318 111v22"/>
+      <rect class="y" x="298" y="86" width="40" height="18" rx="4"/>
+      <path class="t2" d="M305 95h26"/>
+      <rect class="p" x="311" y="74" width="14" height="12"/>
+      <path d="M318 74V61"/>
+      <circle class="c t2" cx="318" cy="58" r="3.5"/>
+      <!-- 月台與電車 -->
+      <path class="p" d="M-10 260V213H410V260Z"/>
+      <path d="M-10 240H410"/>
+      <path class="t2" d="M4 245.5H400" stroke-dasharray="1 12"/>
+      <g transform="translate(96 214)"><g class="rock">
+        <path d="M60 14h8"/>
+        <rect class="y" x="0" y="0" width="60" height="22" rx="7"/>
+        <rect class="p t2" x="7" y="5" width="11" height="8" rx="2"/><rect class="p t2" x="24" y="5" width="11" height="8" rx="2"/><rect class="p t2" x="41" y="5" width="11" height="8" rx="2"/>
+        <path class="y" d="M76 0h34q20 0 20 16v6H68V8q0-8 8-8z"/>
+        <rect class="p t2" x="75" y="5" width="11" height="8" rx="2"/><rect class="p t2" x="92" y="5" width="11" height="8" rx="2"/>
+        <path class="a t2" d="M109 5h7q7 1 8 8h-15z"/>
+        <path d="M3 17.5h54M71 17.5h56" style="stroke:var(--coral)"/>
+        <circle class="k ns" cx="14" cy="23" r="4"/><circle class="k ns" cx="46" cy="23" r="4"/><circle class="k ns" cx="82" cy="23" r="4"/><circle class="k ns" cx="116" cy="23" r="4"/>
+      </g></g>
+      <!-- 飛機 -->
+      <g transform="translate(94 56) rotate(-8)"><g class="float">
+        <path d="M-46 3h-28" stroke-dasharray="1 9"/>
+        <path class="c" d="M-30-5l-9-17h13l11 17z"/>
+        <rect class="p" x="-34" y="-9" width="68" height="18" rx="9"/>
+        <path class="a t2" d="M20-9h5q8 1 9 8H20z"/>
+        <path class="c" d="M-6 3l-12 17h13l15-17z"/>
+        <circle class="k ns" cx="-14" cy="-2" r="2.2"/><circle class="k ns" cx="-4" cy="-2" r="2.2"/><circle class="k ns" cx="6" cy="-2" r="2.2"/>
+      </g></g>
+    </svg>
+  </div>
+
+  <div class="hero-text">
+    <p class="eyebrow">2026 冬・關西 8 天 7 夜</p>
+    <h1>Osaka Kuri</h1>
+    <ul class="route" aria-label="這趟會去的城市">
+      <li style="--c:var(--coral)">大阪</li>
+      <li style="--c:var(--green)">京都</li>
+      <li style="--c:var(--aqua)">奈良</li>
+      <li style="--c:var(--yellow)">神戶</li>
+    </ul>
+    <p class="dates">12/16（三）出發　12/23（三）回家</p>
+
+    <div class="cd" aria-live="off">
+      <p class="cd-label"><span id="cd-title">距離出發還有</span><span>12/16 09:00 起飛（台灣時間）</span></p>
+      <div class="cd-grid" id="cd-grid">
+        <div class="cd-box" style="--c:var(--coral)"><span class="cd-num" id="cd-d">--</span><span class="cd-unit">天</span></div>
+        <div class="cd-box" style="--c:var(--yellow)"><span class="cd-num" id="cd-h">--</span><span class="cd-unit">時</span></div>
+        <div class="cd-box" style="--c:var(--aqua)"><span class="cd-num" id="cd-m">--</span><span class="cd-unit">分</span></div>
+        <div class="cd-box" style="--c:var(--green)"><span class="cd-num" id="cd-s">--</span><span class="cd-unit">秒</span></div>
+      </div>
+      <p class="cd-msg" id="cd-msg" hidden></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 航班 ================= -->
+<section id="flights">
+  <div class="sec-head"><h2 style="--hl:var(--aqua)">航班</h2></div>
+  <div class="tickets">
+    <article class="ticket" style="--c:var(--aqua)">
+      <div class="ticket-head"><b>去程</b><span>12/16（三）</span><span class="air">泰國獅航</span></div>
+      <div class="ticket-body">
+        <div class="pt"><span class="t-time">09:00</span><span class="city">台灣</span></div>
+        <div class="fly" aria-hidden="true"><span class="fly-plane"><svg viewBox="0 0 24 24"><path d="M2.5 12.5 21 4 15.5 20 11.5 13.8Z"/><path d="M11.5 13.8 21 4"/></svg></span></div>
+        <div class="pt"><span class="t-time">12:20</span><span class="city">大阪</span></div>
+      </div>
+      <div class="ticket-foot"><span>飛行約 2 小時 20 分</span><span>抵達關西機場</span></div>
+    </article>
+    <article class="ticket" style="--c:var(--coral)">
+      <div class="ticket-head"><b>回程</b><span>12/23（三）</span><span class="air">泰國獅航</span></div>
+      <div class="ticket-body">
+        <div class="pt"><span class="t-time">13:40</span><span class="city">大阪</span></div>
+        <div class="fly" aria-hidden="true"><span class="fly-plane"><svg viewBox="0 0 24 24"><path d="M2.5 12.5 21 4 15.5 20 11.5 13.8Z"/><path d="M11.5 13.8 21 4"/></svg></span></div>
+        <div class="pt"><span class="t-time">15:40</span><span class="city">台灣</span></div>
+      </div>
+      <div class="ticket-foot"><span>飛行約 3 小時</span><span>從關西機場出發</span></div>
+    </article>
+  </div>
+  <p class="after-note">起降都是當地時間，日本比台灣快 1 小時。航班編號和航廈還沒寫在 Notion，確認後記得補上。</p>
+</section>
+
+<!-- ================= 每日行程 ================= -->
+<section id="days">
+  <div class="sec-head"><h2 style="--hl:var(--coral)">每日行程</h2></div>
+  <div class="tabs-scroll" id="tabs-scroll"><div class="tabs" id="tabs" role="tablist" aria-label="選擇日期"></div></div>
+  <p class="hint">彩色小標籤是交通方式。航班時間來自 Notion，其餘是建議路線，班次請以當天為準。</p>
+  <div class="panel" id="day-panel" role="tabpanel" tabindex="-1"></div>
+</section>
+
+<!-- ================= 待辦 ================= -->
+<section id="todo">
+  <div class="sec-head">
+    <h2 style="--hl:var(--green)">出發前待辦</h2>
+    <svg class="ill sec-art" viewBox="0 0 120 72" aria-hidden="true">
+      <g transform="translate(34 30)"><g class="hop"><circle class="y" r="15"/><path class="c t2" d="M-12-8q12-13 24 0q-4 6-8 1q-4 6-8 0q-4 5-8-1z"/></g></g>
+      <g transform="translate(60 27)"><g class="hop" style="--d:.25s"><circle class="y" r="15"/><path class="c t2" d="M-12-8q12-13 24 0q-4 6-8 1q-4 6-8 0q-4 5-8-1z"/></g></g>
+      <g transform="translate(86 30)"><g class="hop" style="--d:.5s"><path d="M4-10L16-28"/><circle class="y" r="15"/><path class="c t2" d="M-12-8q12-13 24 0q-4 6-8 1q-4 6-8 0q-4 5-8-1z"/></g></g>
+      <path class="p" d="M10 40h100l-9 24q-2 5-7 5H26q-5 0-7-5z"/>
+    </svg>
+  </div>
+  <div class="todo">
+    <div class="todo-top"><span id="todo-count">0 / 0</span><div class="bar" aria-hidden="true"><i id="todo-bar"></i></div></div>
+    <div id="todo-groups"></div>
+    <form class="todo-add" id="todo-add" autocomplete="off">
+      <input id="todo-new" type="text" maxlength="60" placeholder="加一件自己的待辦" aria-label="新增待辦事項">
+      <button class="btn" type="submit" id="todo-add-btn">加入</button>
+    </form>
+  </div>
+</section>
+
+<!-- ================= 住宿 ================= -->
+<section id="stay">
+  <div class="sec-head"><h2 style="--hl:var(--yellow)">住宿</h2></div>
+  <article class="stay">
+    <div class="stay-art">
+      <svg class="ill" viewBox="0 0 160 120" aria-hidden="true">
+        <circle class="p ns" cx="80" cy="62" r="54"/>
+        <path class="y" d="M139 8a15 15 0 1 0 16 22a12 12 0 0 1-16-22z"/>
+        <g transform="translate(150 60)"><path class="y t2 twinkle" d="M0-6Q1.3-1.3 6 0Q1.3 1.3 0 6Q-1.3 1.3-6 0Q-1.3-1.3 0-6Z"/></g>
+        <g transform="translate(22 40)"><path class="y t2 twinkle d2" d="M0-6Q1.3-1.3 6 0Q1.3 1.3 0 6Q-1.3 1.3-6 0Q-1.3-1.3 0-6Z"/></g>
+        <path d="M132 114V98"/><circle class="g" cx="132" cy="90" r="11"/>
+        <rect class="p" x="44" y="30" width="72" height="84"/>
+        <rect class="c" x="38" y="22" width="84" height="12" rx="6"/>
+        <rect class="y t2" x="54" y="42" width="12" height="11" rx="3"/><rect class="a t2" x="74" y="42" width="12" height="11" rx="3"/><rect class="y t2" x="94" y="42" width="12" height="11" rx="3"/>
+        <rect class="a t2" x="54" y="60" width="12" height="11" rx="3"/><rect class="y t2" x="74" y="60" width="12" height="11" rx="3"/><rect class="a t2" x="94" y="60" width="12" height="11" rx="3"/>
+        <rect class="y t2" x="54" y="78" width="12" height="11" rx="3"/><rect class="y t2" x="94" y="78" width="12" height="11" rx="3"/>
+        <path class="g" d="M72 114V98q0-7 8-7q8 0 8 7v16z"/>
+        <path d="M26 98v-6h8v6"/><rect class="a" x="22" y="98" width="16" height="16" rx="4"/>
+        <path d="M12 114H150"/>
+      </svg>
+    </div>
+    <div class="stay-body">
+      <h3>SR難波 Sanctuary Residence, Osaka</h3>
+      <dl class="kv">
+        <dt>入住</dt><dd>12/16（三）16:00 起</dd>
+        <dt>退房</dt><dd>12/23（三）10:00 前</dd>
+        <dt>晚數</dt><dd>7 晚</dd>
+        <dt>地址</dt><dd>大阪市浪速區大國 1-11-17</dd>
+        <dt>附近車站</dt><dd>地鐵大國町站（御堂筋線・四橋線），到難波一站</dd>
+      </dl>
+      <div class="links">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=SR%E9%9B%A3%E6%B3%A2%20Sanctuary%20Residence%20%E5%A4%A7%E9%98%AA%E5%B8%82%E6%B5%AA%E9%80%9F%E5%8C%BA%E5%A4%A7%E5%9B%BD1-11-17" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5A4.5 4.5 0 0 1 12.5 6c0 3.2-4.5 8.5-4.5 8.5S3.5 9.2 3.5 6A4.5 4.5 0 0 1 8 1.5z"/></svg>在地圖上開啟</a>
+      </div>
+      <p class="after-note">Notion 只有住宿名稱。日期依行程推算；地址和入住、退房時間查自訂房網站，請以訂單為準。</p>
+    </div>
+  </article>
+</section>
+
+<p class="foot">行程資料來自 Notion「Osaka Kuri」（2026/10/07 版）。<br>打勾和自己加的待辦只會存在這台裝置的瀏覽器裡。</p>
+
+</main>
+</div>
+
+<script>
+(function(){
+'use strict';
+var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : {matches:false};
+var $ = function(s, r){ return (r||document).querySelector(s); };
+var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+var mapUrl = function(q){ return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); };
+try{ document.documentElement.lang = 'zh-Hant'; }catch(e){}
+
+/* ---------- 小圖示 ---------- */
+var ICON = {
+  plane:'<svg viewBox="0 0 20 20" aria-hidden="true"><path class="fp" d="M2.5 10.5 17.5 3.5 13 16.5 9.5 11.5Z"/><path d="M9.5 11.5 17.5 3.5"/></svg>',
+  train:'<svg viewBox="0 0 20 20" aria-hidden="true"><rect class="fp" x="4.5" y="3" width="11" height="11" rx="3"/><path d="M4.5 8.5h11M7.5 14l-2 3M12.5 14l2 3"/></svg>',
+  metro:'<svg viewBox="0 0 20 20" aria-hidden="true"><circle class="fp" cx="10" cy="10" r="7.5"/><path d="M6.5 13V7.5L10 11l3.5-3.5V13"/></svg>',
+  walk:'<svg viewBox="0 0 20 20" aria-hidden="true"><ellipse class="fk" cx="7" cy="6.5" rx="2.4" ry="3.6" transform="rotate(-12 7 6.5)"/><ellipse class="fk" cx="13" cy="13.5" rx="2.4" ry="3.6" transform="rotate(-12 13 13.5)"/></svg>',
+  pin:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5A4.5 4.5 0 0 1 12.5 6c0 3.2-4.5 8.5-4.5 8.5S3.5 9.2 3.5 6A4.5 4.5 0 0 1 8 1.5z"/></svg>',
+  star:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.9 4 4.4.5-3.3 3 .9 4.3L8 11.2l-3.9 2.2.9-4.3-3.3-3 4.4-.5z"/></svg>'
+};
+var MODE = {
+  plane:{label:'飛機', color:'aqua'},
+  train:{label:'電車', color:'green'},
+  metro:{label:'地鐵', color:'yellow'},
+  walk:{label:'步行', color:'coral'}
+};
+var KIND = {
+  food:['食','coral'], sight:['景','green'], shop:['買','yellow'], cafe:['茶','aqua'],
+  show:['秀','coral'], park:['園','yellow'], stay:['宿','aqua'], drink:['酒','green']
+};
+
+/* ---------- 每日插圖 ---------- */
+var STAR = 'M0-7Q1.5-1.5 7 0Q1.5 1.5 0 7Q-1.5 1.5-7 0Q-1.5-1.5 0-7Z';
+var star = function(x,y,cls,d2){ return '<g transform="translate('+x+' '+y+')"><path class="'+(cls||'y')+' t2 twinkle'+(d2?' d2':'')+'" d="'+STAR+'"/></g>'; };
+var CUP = '<path class="p" d="M-11 0h22v8q0 10-11 10q-11 0-11-10z"/><path d="M11 3q8 0 8 6q0 6-9 6"/><g class="steam"><path class="t2" d="M-3-6q-3-4 0-8q3-4 0-8M4-6q-3-4 0-8q3-4 0-8"/></g>';
+var TORII = '<rect class="c" x="22" y="30" width="8" height="54"/><rect class="c" x="74" y="30" width="8" height="54"/><rect class="c" x="16" y="38" width="72" height="7" rx="2"/><path class="c" d="M8 28q44-9 88 0l-3-11q-41-8-82 0z"/>';
+var PLANE = '<path class="c" d="M-30-5l-9-17h13l11 17z"/><rect class="p" x="-34" y="-9" width="68" height="18" rx="9"/><path class="a t2" d="M20-9h5q8 1 9 8H20z"/><path class="c" d="M-6 3l-12 17h13l15-17z"/><circle class="k ns" cx="-14" cy="-2" r="2.2"/><circle class="k ns" cx="-4" cy="-2" r="2.2"/><circle class="k ns" cx="6" cy="-2" r="2.2"/>';
+var ART = {
+  tower:
+    '<circle class="p ns" cx="62" cy="46" r="40"/>'+
+    '<path class="p" d="M34 84L43 48H61L70 84H60Q52 64 44 84Z"/><path class="t2" d="M41 60H63"/>'+
+    '<rect class="c" x="39" y="38" width="26" height="10" rx="3"/><rect class="p" x="46" y="22" width="12" height="16"/>'+
+    '<rect class="y" x="38" y="12" width="28" height="10" rx="3"/><path d="M52 12V4"/>'+
+    '<g transform="translate(96 85)"><g class="wiggle"><path d="M0 0V-64"/><rect class="y" x="-9" y="-56" width="18" height="13" rx="6"/><rect class="g" x="-9" y="-41" width="18" height="13" rx="6"/><rect class="y" x="-9" y="-26" width="18" height="13" rx="6"/></g></g>'+
+    star(18,22,'y'),
+  globe:
+    '<circle class="p ns" cx="60" cy="45" r="41"/>'+
+    '<rect class="y" x="50" y="72" width="20" height="11" rx="3"/>'+
+    '<g transform="translate(60 44)"><g class="sway">'+
+      '<g transform="rotate(-12)"><path d="M-40 0A40 10 0 0 1 40 0"/></g>'+
+      '<circle class="a" r="26"/>'+
+      '<path class="g t2" d="M-14-12q8-8 16-1q4 7-3 11q-9 3-13-10z"/><path class="g t2" d="M4 6q9-3 12 5q-2 9-10 6q-5-4-2-11z"/>'+
+      '<g transform="rotate(-12)"><path d="M-40 0A40 10 0 0 0 40 0" style="stroke-width:9"/><path d="M-40 0A40 10 0 0 0 40 0" style="stroke:var(--coral);stroke-width:4"/></g>'+
+    '</g></g>'+ star(104,16,'y') + star(14,70,'c',true),
+  torii:
+    '<circle class="p ns" cx="54" cy="46" r="41"/>'+
+    '<g transform="translate(52 84) scale(.42) translate(-52 -84)">'+TORII+'</g>'+
+    '<g transform="translate(52 84) scale(.68) translate(-52 -84)">'+TORII+'</g>'+ TORII +
+    '<g transform="translate(104 66)"><g class="nod"><path class="p" d="M-11-6l3-12 8 8 8-8 3 12q-1 13-11 16q-10-3-11-16z"/><circle class="k ns" cx="-4" cy="-2" r="1.6"/><circle class="k ns" cx="4" cy="-2" r="1.6"/><path class="c t2" d="M-2 4h4l-2 3z"/></g></g>',
+  deer:
+    '<circle class="p ns" cx="60" cy="46" r="41"/>'+
+    '<path d="M38 62V84M50 66V84M66 66V84M76 62V84" style="stroke-width:4"/>'+
+    '<circle class="p t2" cx="29" cy="50" r="4.5"/>'+
+    '<ellipse class="y" cx="56" cy="55" rx="26" ry="14"/>'+
+    '<circle class="p ns" cx="45" cy="51" r="2.6"/><circle class="p ns" cx="55" cy="47" r="2.6"/><circle class="p ns" cx="63" cy="54" r="2.6"/>'+
+    '<g transform="translate(74 50)"><g class="nod">'+
+      '<path class="y" d="M-6 2L4-22L16-18L8 8Z"/>'+
+      '<path d="M10-30v-10M10-36l-6-5M10-34l6-5"/>'+
+      '<path class="y" d="M4-28l-7-6h10z"/>'+
+      '<ellipse class="y" cx="16" cy="-23" rx="12" ry="8"/>'+
+      '<circle class="k ns" cx="18" cy="-25" r="1.7"/><circle class="k ns" cx="27" cy="-22" r="2"/>'+
+    '</g></g>'+
+    '<path class="g t2" d="M92 85q2-8 5-1q2-9 6 0q3-6 5 1z"/><path class="g t2" d="M8 85q2-7 5-1q2-8 6 1z"/>',
+  port:
+    '<circle class="p ns" cx="58" cy="44" r="41"/>'+
+    '<path class="c" d="M36 80Q48 46 39 16H61Q52 46 64 80Z"/><path class="t2" d="M40 22L60 74M60 22L40 74M43 48H57"/>'+
+    '<rect class="p" x="35" y="9" width="30" height="8" rx="3"/><path d="M50 9V2"/>'+
+    '<g transform="translate(96 46)">'+CUP+'</g>'+
+    '<path class="a" d="M2 80q7-7 14 0t14 0t14 0t14 0t14 0t14 0t14 0t14 0V94H2Z"/>',
+  yakitori:
+    '<circle class="p ns" cx="58" cy="46" r="41"/>'+
+    '<g transform="translate(16 80) rotate(-40)"><g class="wiggle"><path d="M0 0H80"/><rect class="c" x="22" y="-9" width="17" height="18" rx="7"/><rect class="g" x="41" y="-6" width="9" height="12" rx="3"/><rect class="c" x="52" y="-9" width="17" height="18" rx="7"/></g></g>'+
+    '<g transform="translate(96 62)">'+CUP+'</g>',
+  tempura:
+    '<circle class="p ns" cx="60" cy="44" r="41"/>'+
+    '<ellipse class="p" cx="60" cy="72" rx="48" ry="10"/>'+
+    '<g transform="translate(58 50)"><g class="wiggle">'+
+      '<path class="c" d="M26-16l16-9-3 14 11 5-18 4z"/>'+
+      '<path class="y" d="M-34 14Q-40-14-10-22Q18-28 32-10Q22-12 8-8Q-10-2-12 16Q-22 24-34 14Z"/>'+
+      '<path class="t2" d="M-22 0q4 2 3 7M-8-10q4 2 4 7M8-16q3 3 2 7"/>'+
+    '</g></g>'+ star(20,20,'y'),
+  home:
+    '<circle class="p ns" cx="60" cy="46" r="41"/>'+
+    '<g transform="translate(8 6) scale(.55)"><g class="drift"><path class="p" d="M10 46a12 12 0 0 1 2-24a16 16 0 0 1 30-6a13 13 0 0 1 22 10a10 10 0 0 1-2 20z"/></g></g>'+
+    '<path d="M32 52v-8h16v8"/><rect class="g" x="22" y="52" width="36" height="28" rx="7"/><path class="t2" d="M32 58v16M48 58v16"/>'+
+    '<circle class="k ns" cx="31" cy="83" r="3"/><circle class="k ns" cx="49" cy="83" r="3"/>'+
+    '<g transform="translate(78 36) rotate(-12) scale(.74)"><g class="float">'+PLANE+'</g></g>'+
+    '<path class="c t2" d="M94 70q-6-8-11-3q-4 6 11 15q15-9 11-15q-5-5-11 3z"/>'
+};
+
+/* ---------- 行程資料（整理自 Notion） ---------- */
+var DAYS = [
+  { date:'12/16', num:'16', dow:'三', lbl:'抵達', title:'抵達大阪', area:'大阪・新世界', color:'coral', art:'tower', items:[
+    {t:'move', mode:'plane', time:'09:00–12:20', text:'泰國獅航　台灣 → 大阪'},
+    {t:'move', mode:'train', text:'關西機場 → 難波｜南海電鐵'},
+    {t:'move', mode:'metro', text:'難波 → 大國町｜一站'},
+    {t:'stop', kind:'stay', name:'SR難波 Sanctuary Residence', sub:'先放行李，16:00 起可入住', q:'SR難波 Sanctuary Residence 大阪市浪速区大国1-11-17'},
+    {t:'move', mode:'walk', text:'住宿 → 新世界｜約 1.2 公里，也可搭御堂筋線到動物園前站'},
+    {t:'stop', kind:'sight', must:true, name:'新世界｜通天閣', sub:'走進昭和時代的老大阪商店街', q:'通天閣 大阪',
+      link:{href:'https://bobbytravel.tw/shinsekai/', label:'新世界本通商店街攻略'}},
+    {t:'stop', kind:'food', name:'串かつ 花道', sub:'炸串', q:'串かつ 花道 大阪'}
+  ]},
+  { date:'12/17', num:'17', dow:'四', lbl:'USJ', title:'環球影城', area:'日本環球影城（USJ）', color:'yellow', art:'globe',
+    meta:['門票 $1,742','入園日兩個月前開賣','暫定攻略'], items:[
+    {t:'move', mode:'train', text:'JR 環狀線到西九條 → 轉 JR 夢咲線 → 環球城站'},
+    {t:'stop', kind:'park', time:'開園前 60～90 分鐘', name:'抵達 USJ、安檢及排隊', note:'早餐先吃好；有餘裕再拍入口大地球。', q:'ユニバーサル・スタジオ・ジャパン'},
+    {t:'stop', kind:'shop', time:'上午空檔', name:'逛紐約區、買 Kuromi 周邊', note:'不排長隊，留時間等表演。'},
+    {t:'stop', kind:'show', time:'Kuromi 開演前 30～45 分鐘', name:'到表演現場等候', note:'當天第一優先。提前時間不保證前排。'},
+    {t:'stop', kind:'show', must:true, time:'Kuromi 表演', name:'Kuromi 現場表演～Discover Me, Discover U!!!～', note:'完整看秀，依官方當日場次安排。場次每天不同，一般約上午 9:00 到中午 12:10 有多場輪流演出（例如 10:35、12:10）。'},
+    {t:'stop', kind:'food', time:'表演結束後約 30 分鐘', name:'Park Side Grille 午餐', note:'預留散場、移動時間；用餐抓 60～90 分鐘，可登記優先入座。'},
+    {t:'stop', kind:'park', must:true, time:'午餐後～下午', name:'任天堂世界', sub:'預留約 4～5 小時', facts:[['star','瑪利歐 5 週年']], note:'按快通時段玩瑪利歐賽車、咚奇剛礦車；穿插手環挑戰、合照、購物，耀西有空再搭。'},
+    {t:'stop', kind:'park', time:'傍晚至晚上', name:'哈利波特園區', note:'逛活米村、拍城堡合照；禁忌之旅依快通與體力安排。'},
+    {t:'stop', kind:'show', time:'晚上空檔', name:'輕食晚餐、聖誕夜間秀或城堡冬季投影', note:'依當天場次選擇，不必每場都追。'},
+    {t:'stop', kind:'shop', time:'離園前後', name:'補買紀念品、大地球合照', note:'再回飯店休息。'}
+  ]},
+  { date:'12/18', num:'18', dow:'五', lbl:'京都', title:'京都', area:'京都・伏見稻荷', color:'green', art:'torii', items:[
+    {t:'move', mode:'metro', text:'大國町 → 淀屋橋｜御堂筋線'},
+    {t:'move', mode:'train', text:'淀屋橋 → 京都｜京阪本線'},
+    {t:'stop', kind:'food', time:'午餐候選', name:'草喰なかひがし', sub:'銀閣寺旁，映照四季的京料理', q:'草喰なかひがし 京都',
+      facts:[['star','米其林二星'],['price','午餐 ¥13,431'],['closed','星期一公休']], note:'難訂位，要留意每月開放訂位的時間。'},
+    {t:'stop', kind:'food', time:'午餐候選', name:'御料理はやし', sub:'京料理', q:'御料理はやし 京都',
+      facts:[['star','米其林一星'],['price','午餐 ¥7,260｜9,680｜13,310｜15,730'],['closed','星期三公休']]},
+    {t:'move', mode:'train', text:'往伏見稻荷｜京阪本線伏見稻荷站，或 JR 奈良線稻荷站'},
+    {t:'stop', kind:'shop', name:'吉伊卡哇本舖 伏見店', sub:'吉伊卡哇 MOGUMOGU 主題的官方周邊店', q:'ちいかわもぐもぐ本舗 伏見店',
+      facts:[['hours','09:30～17:30']], note:'伏見限定：變身狐狸造型玩偶、生八橋、瓦片煎餅。'},
+    {t:'move', mode:'walk', text:'本舖就在伏見稻荷大社旁'},
+    {t:'stop', kind:'sight', must:true, name:'伏見稲荷大社', sub:'千本鳥居', q:'伏見稲荷大社'},
+    {t:'stop', kind:'cafe', name:"Qu'il fait bon", sub:'水果塔', q:'キルフェボン 京都', note:'想吃的是 5 種柑橘水果塔。'}
+  ]},
+  { date:'12/19', num:'19', dow:'六', lbl:'奈良', title:'奈良', area:'奈良・奈良町', color:'aqua', art:'deer', items:[
+    {t:'move', mode:'train', text:'大阪難波 → 近鐵奈良｜近鐵奈良線'},
+    {t:'stop', kind:'food', time:'午餐', name:'㐂つね', sub:'壽喜燒', q:'㐂つね 奈良 すき焼き',
+      facts:[['price','午餐 ¥7,700'],['closed','星期三公休']]},
+    {t:'stop', kind:'food', name:'玄', sub:'蕎麥麵', q:'玄 蕎麦 奈良',
+      facts:[['star','米其林一星'],['closed','星期一、日公休']], note:'白天是單點，晚上有套餐。'},
+    {t:'move', mode:'walk', text:'奈良町一帶，用走的串起來'},
+    {t:'stop', kind:'drink', name:'今西清兵衛商店', sub:'春鹿酒藏的清酒試飲', q:'今西清兵衛商店 春鹿 奈良', facts:[['price','¥700 五杯']]},
+    {t:'stop', kind:'food', must:true, name:'中谷堂', sub:'艾草麻糬', q:'中谷堂 奈良'},
+    {t:'stop', kind:'cafe', name:'田村青芳園茶舗', sub:'大和茶', q:'田村青芳園茶舗 奈良'},
+    {t:'stop', kind:'food', time:'晚餐', name:'万味屋', sub:'大阪燒', q:'万味屋 mamiya お好み焼き'}
+  ]},
+  { date:'12/20', num:'20', dow:'日', lbl:'神戶', title:'神戶', area:'神戶・三宮／北野', color:'coral', art:'port', items:[
+    {t:'move', mode:'train', text:'大阪難波 → 神戶三宮｜阪神電車'},
+    {t:'stop', kind:'food', name:'扇矢', sub:'神戶牛・但馬牛燒肉', q:'神戸牛・但馬牛焼肉 扇矢'},
+    {t:'stop', kind:'food', time:'午餐', name:'炭焼きステーキとワイン obiobi', sub:'炭烤牛排排餐', q:'炭焼きステーキとワイン obiobi 神戸', facts:[['price','午餐 ¥8,500 起']]},
+    {t:'move', mode:'walk', text:'三宮 → 北野坂｜上坡步行約 10 分鐘'},
+    {t:'stop', kind:'cafe', must:true, name:'北野坂にしむら珈琲店', sub:'咖啡廳', q:'にしむら珈琲店 北野坂店', note:'頤頤最愛的咖啡廳。'},
+    {t:'move', mode:'train', text:'神戶三宮 → 大阪梅田｜阪急神戶線'},
+    {t:'stop', kind:'food', time:'晚餐', name:'グリルキャピタル東洋亭 阪急店', sub:'洋食，在阪急梅田本店', q:'グリルキャピタル東洋亭 阪急うめだ本店'}
+  ]},
+  { date:'12/21', num:'21', dow:'一', lbl:'燒鳥', title:'米其林燒鳥和百大咖啡', area:'大阪・肥後橋／心齋橋／道頓堀', color:'yellow', art:'yakitori', items:[
+    {t:'move', mode:'metro', text:'大國町 → 肥後橋｜四橋線'},
+    {t:'stop', kind:'food', must:true, time:'午餐｜晚餐', name:'吾一 肥後橋店', sub:'燒鳥', q:'吾一 肥後橋店',
+      facts:[['star','米其林一星'],['star','Tabelog 4.25'],['price','¥14,000']],
+      note:'預約：每月第 2 週週六 11:45（日本時間）開放下個月或特定月份的席位。',
+      alert:'不接受信用卡或電子支付，記得帶現金。'},
+    {t:'move', mode:'walk', text:'肥後橋 → 京町堀｜走路就到'},
+    {t:'stop', kind:'cafe', must:true, name:'Ult Coffee Roasters', sub:'百大咖啡', q:'ULT Coffee Roasters 大阪 京町堀', facts:[['star','Best 100 Cafe・24']]},
+    {t:'move', mode:'metro', text:'肥後橋 → 四橋（心齋橋）｜四橋線'},
+    {t:'stop', kind:'food', name:'吉伊卡哇拉麵 豚', sub:'心齋橋 PARCO', q:'ちいかわラーメン 豚 心斎橋PARCO'},
+    {t:'move', mode:'walk', text:'心齋橋 → 道頓堀戎橋｜沿心齋橋筋往南走'},
+    {t:'stop', kind:'sight', name:'固力果跑跑人', sub:'道頓堀', q:'道頓堀グリコサイン'}
+  ]},
+  { date:'12/22', num:'22', dow:'二', lbl:'天婦羅', title:'天婦羅午餐', area:'大阪・江坂', color:'green', art:'tempura',
+    tip:'這天在 Notion 還沒取標題，只排了午餐，其他時間先留白。', items:[
+    {t:'move', mode:'metro', text:'大國町 → 江坂｜御堂筋線直達'},
+    {t:'stop', kind:'food', must:true, time:'午餐', name:'旬彩天 つちや', sub:'天婦羅', q:'旬彩天 つちや 江坂',
+      facts:[['star','米其林二星'],['star','Tabelog 4.17'],['price','午餐 ¥8,800'],['closed','星期一、日無午餐']]}
+  ]},
+  { date:'12/23', num:'23', dow:'三', lbl:'回家', title:'抵達台灣', area:'大阪 → 台灣', color:'aqua', art:'home', items:[
+    {t:'stop', kind:'stay', time:'10:00 前', name:'SR難波 Sanctuary Residence 退房', q:'SR難波 Sanctuary Residence 大阪市浪速区大国1-11-17'},
+    {t:'move', mode:'metro', text:'大國町 → 難波｜一站'},
+    {t:'move', mode:'train', text:'難波 → 關西機場｜南海電鐵'},
+    {t:'move', mode:'plane', time:'13:40–15:40', text:'泰國獅航　大阪 → 台灣'}
+  ]}
+];
+
+/* ---------- 日期切換 ---------- */
+var tabsEl = $('#tabs'), tabsScroll = $('#tabs-scroll'), panel = $('#day-panel');
+var cur = 0;
+
+tabsEl.innerHTML = DAYS.map(function(d,i){
+  return '<button class="tab" type="button" role="tab" id="tab-'+i+'" aria-controls="day-panel" aria-selected="false" tabindex="-1" data-i="'+i+'"'+
+    ' style="--c:var(--'+d.color+');--cs:var(--'+d.color+'-soft)" aria-label="'+esc(d.date+'（'+d.dow+'）'+d.title)+'">'+
+    '<span class="dow">'+d.dow+'</span><span class="num">'+d.num+'</span><span class="lbl">'+esc(d.lbl)+'</span></button>';
+}).join('');
+var tabs = Array.prototype.slice.call(tabsEl.querySelectorAll('.tab'));
+
+function renderDay(d, idx){
+  var n = 0;
+  var items = d.items.map(function(it){
+    var i = n++;
+    if(it.t === 'move'){
+      var m = MODE[it.mode];
+      return '<li class="move" style="--i:'+i+'"><span class="mode" style="--c:var(--'+m.color+')">'+ICON[it.mode]+m.label+'</span>'+
+        '<span class="move-text">'+(it.time ? '<span class="time">'+esc(it.time)+'</span>' : '')+esc(it.text)+'</span></li>';
+    }
+    var k = KIND[it.kind];
+    var top = it.time ? '<div class="card-top"><span class="time">'+esc(it.time)+'</span></div>' : '';
+    var facts = it.facts ? '<ul class="facts">'+it.facts.map(function(f){ return '<li class="f-'+f[0]+'">'+esc(f[1])+'</li>'; }).join('')+'</ul>' : '';
+    var links = '';
+    if(it.q) links += '<a class="btn" href="'+esc(mapUrl(it.q))+'" target="_blank" rel="noopener">'+ICON.pin+'地圖</a>';
+    if(it.link) links += '<a class="btn" href="'+esc(it.link.href)+'" target="_blank" rel="noopener">'+esc(it.link.label)+'</a>';
+    return '<li class="stop" data-k="'+k[0]+'" style="--i:'+i+';--c:var(--'+k[1]+')">'+
+      '<article class="card'+(it.must?' is-must':'')+'">'+
+        (it.must ? '<span class="must">'+ICON.star+'必去</span>' : '')+
+        top+
+        '<h4>'+esc(it.name)+'</h4>'+
+        (it.sub ? '<p class="sub">'+esc(it.sub)+'</p>' : '')+
+        facts+
+        (it.note ? '<p class="note">'+esc(it.note)+'</p>' : '')+
+        (it.alert ? '<p class="alert">'+esc(it.alert)+'</p>' : '')+
+        (links ? '<div class="links">'+links+'</div>' : '')+
+      '</article></li>';
+  }).join('');
+  var meta = d.meta ? '<ul class="day-meta">'+d.meta.map(function(m){ return '<li>'+esc(m)+'</li>'; }).join('')+'</ul>' : '';
+  var prev = idx > 0 ? '<button class="btn prev" type="button" data-go="-1">← '+esc(DAYS[idx-1].date+' '+DAYS[idx-1].lbl)+'</button>' : '';
+  var next = idx < DAYS.length-1 ? '<button class="btn next" type="button" data-go="1">'+esc(DAYS[idx+1].date+' '+DAYS[idx+1].lbl)+' →</button>' : '';
+  return '<div class="day-head" style="--cs:var(--'+d.color+'-soft)">'+
+      '<div><p class="day-no">DAY '+(idx+1)+'・'+d.date+'（'+d.dow+'）</p><h3>'+esc(d.title)+'</h3><p class="day-area">'+esc(d.area)+'</p>'+meta+'</div>'+
+      '<svg class="ill day-art" viewBox="0 0 120 90" aria-hidden="true">'+ART[d.art]+'</svg>'+
+    '</div>'+
+    '<ol class="tl">'+items+'</ol>'+
+    (d.tip ? '<p class="day-tip" style="--i:'+n+'">'+esc(d.tip)+'</p>' : '')+
+    '<div class="pager" style="--i:'+(n+1)+'">'+prev+next+'</div>';
+}
+
+function select(i, animate){
+  cur = i;
+  tabs.forEach(function(t,k){
+    var on = k === i;
+    t.setAttribute('aria-selected', on ? 'true' : 'false');
+    t.tabIndex = on ? 0 : -1;
+    t.classList.remove('pop');
+  });
+  panel.classList.remove('pop');
+  panel.innerHTML = renderDay(DAYS[i], i);
+  panel.setAttribute('aria-labelledby', 'tab-'+i);
+  var motion = animate && !reduce.matches;
+  if(motion){
+    void panel.offsetWidth;            /* 重新觸發彈跳動畫 */
+    panel.classList.add('pop');
+    tabs[i].classList.add('pop');
+  }
+  var t = tabs[i];
+  var left = t.offsetLeft - (tabsScroll.clientWidth - t.offsetWidth) / 2;
+  try{ tabsScroll.scrollTo({left:left, behavior: motion ? 'smooth' : 'auto'}); }catch(e){ tabsScroll.scrollLeft = left; }
+  try{ localStorage.setItem('osaka-kuri-day', String(i)); }catch(e){}
+}
+
+tabsEl.addEventListener('click', function(e){
+  var b = e.target.closest('.tab'); if(!b) return;
+  select(+b.dataset.i, true);
+});
+tabsEl.addEventListener('keydown', function(e){
+  var to = null;
+  if(e.key === 'ArrowRight') to = Math.min(cur+1, DAYS.length-1);
+  else if(e.key === 'ArrowLeft') to = Math.max(cur-1, 0);
+  else if(e.key === 'Home') to = 0;
+  else if(e.key === 'End') to = DAYS.length-1;
+  if(to === null) return;
+  e.preventDefault();
+  select(to, true);
+  tabs[to].focus();
+});
+panel.addEventListener('click', function(e){
+  var b = e.target.closest('[data-go]'); if(!b) return;
+  select(cur + (+b.dataset.go), true);
+  $('#days').scrollIntoView({behavior: reduce.matches ? 'auto' : 'smooth', block:'start'});
+});
+
+/* 旅途中自動翻到當天，其他時候回到上次看的那一天 */
+(function(){
+  var start = 0;
+  var jp = new Date(Date.now() + 9*3600e3);
+  if(jp.getUTCFullYear() === 2026 && jp.getUTCMonth() === 11 && jp.getUTCDate() >= 16 && jp.getUTCDate() <= 23){
+    start = jp.getUTCDate() - 16;
+  }else{
+    try{ var s = parseInt(localStorage.getItem('osaka-kuri-day'), 10); if(s >= 0 && s < DAYS.length) start = s; }catch(e){}
+  }
+  select(start, false);
+})();
+
+/* ---------- 出發倒數 ---------- */
+var DEPART = Date.UTC(2026, 11, 16, 1, 0, 0);   /* 12/16 09:00 台灣時間 */
+var ARRIVE_HOME = Date.UTC(2026, 11, 23, 7, 40, 0); /* 12/23 15:40 台灣時間 */
+var cdEls = {d:$('#cd-d'), h:$('#cd-h'), m:$('#cd-m'), s:$('#cd-s')};
+var pad = function(n){ return n < 10 ? '0'+n : ''+n; };
+function parts(ms){
+  var s = Math.floor(ms/1000);
+  return {d:Math.floor(s/86400), h:Math.floor(s%86400/3600), m:Math.floor(s%3600/60), s:s%60};
+}
+function setNum(el, v){
+  if(el.textContent === v) return;
+  el.textContent = v;
+  if(!reduce.matches){ el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); }
+}
+var timer = null;
+function tick(){
+  var left = DEPART - Date.now();
+  if(left <= 0){
+    $('#cd-grid').hidden = true;
+    var msg = $('#cd-msg');
+    msg.hidden = false;
+    if(Date.now() < ARRIVE_HOME){ $('#cd-title').textContent = '出發了'; msg.textContent = '旅程進行中，玩得開心！'; }
+    else{ $('#cd-title').textContent = '旅程結束'; msg.textContent = '歡迎回家，下次再去。'; }
+    if(timer){ clearInterval(timer); timer = null; }
+    return;
+  }
+  var p = parts(left);
+  setNum(cdEls.d, String(p.d)); setNum(cdEls.h, pad(p.h)); setNum(cdEls.m, pad(p.m)); setNum(cdEls.s, pad(p.s));
+}
+tick();
+timer = setInterval(tick, 1000);
+
+/* ---------- 待辦清單 ---------- */
+var TODOS = [
+  {title:'訂票・訂位', color:'coral', items:[
+    {id:'usj-ticket', text:'買環球影城門票（$1,742）', sub:'入園日兩個月前開賣；12/17 入園，大約 10/17 起可以買'},
+    {id:'usj-express', text:'確認快速通關的票和時段', sub:'瑪利歐賽車、咚奇剛礦車、禁忌之旅'},
+    {id:'kyoto-lunch', text:'訂 12/18 京都午餐', sub:'草喰なかひがし很難訂，留意每月開放時間；備案是御料理はやし'},
+    {id:'nara-lunch', text:'訂 12/19 奈良午餐：㐂つね 壽喜燒'},
+    {id:'goichi', text:'訂 12/21 吾一 肥後橋店', sub:'每月第 2 週週六 11:45（日本時間）開放預約'},
+    {id:'tsuchiya', text:'訂 12/22 午餐：旬彩天 つちや'}
+  ]},
+  {title:'出發前確認', color:'aqua', items:[
+    {id:'flight-no', text:'補上航班編號和航廈', sub:'Notion 目前只有時間和航空公司'},
+    {id:'kuromi', text:'查 12/17 Kuromi 現場表演的當日場次'},
+    {id:'cash', text:'準備日圓現金', sub:'吾一不收信用卡和電子支付'},
+    {id:'hotel', text:'確認住宿的入住方式和時間'}
+  ]},
+  {title:'基本準備', color:'yellow', items:[
+    {id:'passport', text:'檢查護照效期'},
+    {id:'vjw', text:'填好 Visit Japan Web 入境資料'},
+    {id:'net', text:'準備上網：eSIM 或 Wi-Fi 分享器'},
+    {id:'ic', text:'交通卡（ICOCA／Suica）備妥'}
+  ]}
+];
+var TODO_KEY = 'osaka-kuri-todo-v1';
+var state = {done:{}, custom:[]};
+try{
+  var raw = localStorage.getItem(TODO_KEY);
+  if(raw){
+    var parsed = JSON.parse(raw);
+    if(parsed && typeof parsed === 'object'){
+      if(parsed.done && typeof parsed.done === 'object') state.done = parsed.done;
+      if(Array.isArray(parsed.custom)) state.custom = parsed.custom.filter(function(c){ return c && typeof c.id === 'string' && typeof c.text === 'string'; });
+    }
+  }
+}catch(e){}
+function save(){ try{ localStorage.setItem(TODO_KEY, JSON.stringify(state)); }catch(e){} }
+
+var groupsEl = $('#todo-groups');
+var CHECK_SVG = '<svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.8 3.8L14.5 5"/></svg>';
+function makeItem(item, custom){
+  var li = document.createElement('li');
+  var label = document.createElement('label'); label.className = 'check';
+  var input = document.createElement('input'); input.type = 'checkbox'; input.id = 'todo-' + item.id; input.checked = !!state.done[item.id];
+  var box = document.createElement('span'); box.className = 'box'; box.innerHTML = CHECK_SVG;
+  var txt = document.createElement('span'); txt.className = 'txt'; txt.textContent = item.text;
+  if(item.sub){ var sm = document.createElement('small'); sm.textContent = item.sub; txt.appendChild(sm); }
+  input.addEventListener('change', function(){
+    if(input.checked) state.done[item.id] = true; else delete state.done[item.id];
+    save(); progress();
+  });
+  label.appendChild(input); label.appendChild(box); label.appendChild(txt);
+  li.appendChild(label);
+  if(custom){
+    var del = document.createElement('button'); del.type = 'button'; del.className = 'del'; del.textContent = '×';
+    del.setAttribute('aria-label', '刪除「' + item.text + '」');
+    del.addEventListener('click', function(){
+      state.custom = state.custom.filter(function(c){ return c.id !== item.id; });
+      delete state.done[item.id];
+      save(); renderTodos();
+    });
+    li.appendChild(del);
+  }
+  return li;
+}
+function renderTodos(){
+  groupsEl.textContent = '';
+  var groups = TODOS.slice();
+  if(state.custom.length) groups.push({title:'自己加的', color:'green', items:state.custom, custom:true});
+  groups.forEach(function(g){
+    var h = document.createElement('h3'); h.textContent = g.title; h.style.setProperty('--c', 'var(--'+g.color+')');
+    var ul = document.createElement('ul'); ul.className = 'checks';
+    g.items.forEach(function(it){ ul.appendChild(makeItem(it, !!g.custom)); });
+    groupsEl.appendChild(h); groupsEl.appendChild(ul);
+  });
+  progress();
+}
+function progress(){
+  var total = 0, done = 0;
+  TODOS.forEach(function(g){ g.items.forEach(function(it){ total++; if(state.done[it.id]) done++; }); });
+  state.custom.forEach(function(it){ total++; if(state.done[it.id]) done++; });
+  $('#todo-count').textContent = '完成 ' + done + ' / ' + total;
+  $('#todo-bar').style.width = (total ? done/total*100 : 0) + '%';
+}
+$('#todo-add').addEventListener('submit', function(e){
+  e.preventDefault();
+  var input = $('#todo-new');
+  var text = input.value.trim();
+  if(!text){ input.focus(); return; }
+  state.custom.push({id:'c' + Date.now().toString(36), text:text});
+  input.value = '';
+  save(); renderTodos();
+});
+renderTodos();
+
+/* ---------- 選單：點了捲到該區，捲動時標出目前區塊 ---------- */
+var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+var navAll = Array.prototype.slice.call(document.querySelectorAll('.nav [data-target]'));
+navAll.forEach(function(a){
+  a.addEventListener('click', function(e){
+    var el = document.getElementById(a.dataset.target); if(!el) return;
+    e.preventDefault();
+    el.scrollIntoView({behavior: reduce.matches ? 'auto' : 'smooth', block:'start'});
+  });
+});
+var secs = navLinks.map(function(a){ return document.getElementById(a.dataset.target); });
+var spyQueued = false;
+function spy(){
+  spyQueued = false;
+  var active = 0, line = 140;
+  for(var i=0;i<secs.length;i++){ if(secs[i].getBoundingClientRect().top <= line) active = i; }
+  var doc = document.documentElement;
+  if(window.innerHeight + window.scrollY >= doc.scrollHeight - 4) active = secs.length - 1;
+  navLinks.forEach(function(a,i){ a.setAttribute('aria-current', i === active ? 'true' : 'false'); });
+}
+window.addEventListener('scroll', function(){ if(!spyQueued){ spyQueued = true; requestAnimationFrame(spy); } }, {passive:true});
+spy();
+})();
+</script>
+</body>
+</html>
